@@ -26,10 +26,6 @@ class CategoryTableViewController: UITableViewController
         loadCategories()
      
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
 
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -47,14 +43,33 @@ class CategoryTableViewController: UITableViewController
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
-            deleteCategory(at: indexPath)
-            
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            
-            
+            checkForDeletion(at: indexPath)
+    
         }
     }
  
+    func checkForDeletion(at indexPath: IndexPath) {
+        
+        if let categoryToDelete = categories?[indexPath.row] {
+            
+            let alertController = UIAlertController(title: "Are you sure you wanto to delete category \(categoryToDelete.name)", message: nil, preferredStyle: .actionSheet)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil )
+              
+            let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+                
+                self.delete(categoryToDelete)
+                
+                self.tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+            
+            alertController.addAction(cancelAction)
+            alertController.addAction(deleteAction)
+            
+            present(alertController, animated: true, completion: nil)
+        }
+    }
+    
     
     // MARK: - @IBActions
     
@@ -100,20 +115,18 @@ class CategoryTableViewController: UITableViewController
         tableView.reloadData()
     }
     
-    func deleteCategory(at indexPath: IndexPath) {
+    func delete(_ category: Category) {
         
-        if let categoryToDelete = categories?[indexPath.row]  {
-            do {
-                
-                try realm.write {
-                    realm.delete(categoryToDelete.items)
-                    realm.delete(categoryToDelete)
-                }
-
-            } catch {
-                print(error)
-                
+        do {
+            
+            try realm.write {
+                realm.delete(category.items)
+                realm.delete(category)
             }
+            
+        } catch {
+            print(error)
+            
         }
     }
     
