@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B6332F0B48CC35F8694FA65 /* Pods_todoey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE05FC94D7BFBEA86B181CC1 /* Pods_todoey.framework */; };
+		D00C25AA224BB2DF0075B329 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00C25A9224BB2DF0075B329 /* ColorPickerViewController.swift */; };
 		D032D8F422364499002388E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D032D8F322364499002388E9 /* AppDelegate.swift */; };
 		D032D8F922364499002388E9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D032D8F722364499002388E9 /* Main.storyboard */; };
 		D032D8FB2236449B002388E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D032D8FA2236449B002388E9 /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 		B6EDC16938E16832756E5FB2 /* Pods-todoey.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-todoey.debug.xcconfig"; path = "Pods/Target Support Files/Pods-todoey/Pods-todoey.debug.xcconfig"; sourceTree = "<group>"; };
 		BD41E1213662BE80A2EA06BD /* Pods-todoey.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-todoey.release.xcconfig"; path = "Pods/Target Support Files/Pods-todoey/Pods-todoey.release.xcconfig"; sourceTree = "<group>"; };
 		CE05FC94D7BFBEA86B181CC1 /* Pods_todoey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_todoey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D00C25A9224BB2DF0075B329 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
 		D032D8F022364499002388E9 /* todoey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = todoey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D032D8F322364499002388E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D032D8F822364499002388E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 			children = (
 				D032D905223644E1002388E9 /* CategoryTableViewController.swift */,
 				D032D907223644F7002388E9 /* ItemsTableViewController.swift */,
+				D00C25A9224BB2DF0075B329 /* ColorPickerViewController.swift */,
 			);
 			path = "View Controller";
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-todoey/Pods-todoey-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
+				"${BUILT_PRODUCTS_DIR}/ChromaColorPicker/ChromaColorPicker.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftRandom/SwiftRandom.framework",
@@ -231,6 +235,7 @@
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChromaColorPicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftRandom.framework",
@@ -251,6 +256,7 @@
 				D032D90C22364E7E002388E9 /* Category.swift in Sources */,
 				D032D8F422364499002388E9 /* AppDelegate.swift in Sources */,
 				D032D906223644E1002388E9 /* CategoryTableViewController.swift in Sources */,
+				D00C25AA224BB2DF0075B329 /* ColorPickerViewController.swift in Sources */,
 				D032D908223644F7002388E9 /* ItemsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,9 +9,14 @@
 import UIKit
 import SwiftRandom
 import RealmSwift
+import ChromaColorPicker
+import ChameleonFramework
 
-class ItemsTableViewController: UITableViewController {
+class ItemsTableViewController: UITableViewController
 
+{
+    //MARK: - Stored Properities
+    
     let realm = try! Realm()
     
     var items : Results<Item>?
@@ -22,22 +27,62 @@ class ItemsTableViewController: UITableViewController {
         }
     }
     
-    func loadItems() {
-        items = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
-       
-        tableView.reloadData()
-    }
+    // MARK: - View Controllers life cycle methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        tableView.separatorStyle = .none
         
         title = selectedCategory?.name
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        guard let colorHex = selectedCategory?.categoryColor else {fatalError()}
+        
+        updateNavBar(withHexCode: colorHex)
+        
+        tableView.reloadData()
+    }    
     
-
+    
+    // MARK: - UI Config methods
+    
+    func updateNavBar(withHexCode colourHexCode: String){
+        
+        guard let navBar = navigationController?.navigationBar else { fatalError("Navigation controller does not exist")}
+        
+        guard let navBarColor = UIColor.init(hexString: colourHexCode) else {fatalError()}
+        
+        navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
+        
+       
+        UIView.animate(withDuration: 1) {
+            
+            navBar.barTintColor = navBarColor
+            
+            navBar.largeTitleTextAttributes = [.foregroundColor : ContrastColorOf(navBarColor, returnFlat: true)]
+            
+            self.searchBar.barTintColor = navBarColor
+        }
+    }
+    
+    
+    //MARK: - DB methods
+    
+    func loadItems() {
+        items = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
+        
+        tableView.reloadData()
+    }
+    
+    //MARK: - @IBOutlets & @IBActions
+    
+    @IBOutlet var searchBar: UISearchBar!
+    
     @IBAction func addItem(_ sender: UIBarButtonItem) {
         
         let alert = UIAlertController(title: "New Item", message: nil, preferredStyle: .alert)
@@ -69,10 +114,11 @@ class ItemsTableViewController: UITableViewController {
         
         self.present(alert, animated: true, completion: nil)
     }
+    
+    
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return items?.count ?? 1
     }
 
@@ -80,17 +126,24 @@ class ItemsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath)
 
         if let item = items?[indexPath.row] {
-            print("mam")
             cell.textLabel?.text = item.title
             
             cell.accessoryType = item.done ? .checkmark : .none
+            
+            if let colour = UIColor.init(hexString: selectedCategory!.categoryColor)?
+                .darken(byPercentage: (CGFloat(indexPath.row) / CGFloat(items!.count)) - CGFloat(0.05 * CGFloat(items!.count))) {
+                
+                cell.backgroundColor = colour
+                
+                cell.textLabel?.textColor = ContrastColorOf(colour, returnFlat: true)
+                
+                cell.tintColor = ContrastColorOf(colour, returnFlat: true)
+            }
+            
         }else {
-            print("nocells")
             cell.textLabel?.text = "No items added yet"
         }
         
-       
-
         return cell
     }
     
@@ -107,7 +160,6 @@ class ItemsTableViewController: UITableViewController {
         
         tableView.reloadData()
     }
- 
 
 
     // MARK: - Table view Delegate methods
@@ -123,17 +175,29 @@ class ItemsTableViewController: UITableViewController {
                 }
                 
             }
-            
-            
             tableView.deleteRows(at: [indexPath], with: .fade)
+            
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
+    }
+    
+    
+    //MARK: - NAvigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToCollorPicker" {
+            
+            let colorPickerVC = segue.destination as! ColorPickerViewController
+            
+            colorPickerVC.category = selectedCategory
         }
     }
 
 }
 
 
+// MARK: - UISearchBar Delegate Methods
 
 extension ItemsTableViewController: UISearchBarDelegate {
     
@@ -154,6 +218,5 @@ extension ItemsTableViewController: UISearchBarDelegate {
             }
         }
     }
-    
-    
 }
+

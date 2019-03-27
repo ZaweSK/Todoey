@@ -10,9 +10,11 @@ import UIKit
 import SwiftRandom
 import RealmSwift
 import ChameleonFramework
+import ChromaColorPicker
 
 class CategoryTableViewController: UITableViewController
 {
+   
     // MARK: Stored properities
     
     let realm = try! Realm()
@@ -27,10 +29,24 @@ class CategoryTableViewController: UITableViewController
         
         tableView.separatorStyle = .none
         loadCategories()
-        
-        
-
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let navBarColor = UIColor.white
+        
+        guard let navBar = navigationController?.navigationBar else { fatalError("Navigation controller does not exist")}
+        
+        UIView.animate(withDuration: 1) {
+            navBar.barTintColor = navBarColor
+            
+            navBar.largeTitleTextAttributes = [.foregroundColor : ContrastColorOf(navBarColor, returnFlat: true)]
+        }
+
+        tableView.reloadData()
+    }
+
 
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -100,28 +116,28 @@ class CategoryTableViewController: UITableViewController
     @IBAction func addCategory(_ sender: UIBarButtonItem) {
         
         let alert = UIAlertController(title: "New Item", message: nil, preferredStyle: .alert)
-        
+
         alert.addTextField { (textField) in
             textField.placeholder = "title"
         }
-        
+
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
-          
+
             let name = alert.textFields?.first!.text
-            
+
             guard name!.count > 0 else {return}
-            
+
             let newCategory = Category()
-            
+
             newCategory.name = name!
-            
+
             newCategory.categoryColor = UIColor.randomFlat.hexValue()
-            
+
             self.save(category: newCategory)
         }
-        
+
         alert.addAction(action)
-        
+
         present(alert, animated: true, completion: nil)
         
     }
