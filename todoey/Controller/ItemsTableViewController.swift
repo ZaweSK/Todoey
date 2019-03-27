@@ -94,6 +94,8 @@ class ItemsTableViewController: UITableViewController
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
             let title = alert.textFields?.first!.text
             
+            guard title!.count > 0 else { return }
+            
             if let currentCategory = self.selectedCategory {
                 do {
                     try self.realm.write{
@@ -112,9 +114,18 @@ class ItemsTableViewController: UITableViewController
         
         alert.addAction(action)
         
-        self.present(alert, animated: true, completion: nil)
+        self.present(alert, animated: true) {
+         
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissAlertController))
+            
+            alert.view.superview?.subviews[0].addGestureRecognizer(tapGesture)
+            
+        }
     }
     
+    @objc func dismissAlertController(_ sender: UIGestureRecognizer) {
+        self.dismiss(animated: true, completion: nil)
+    }
     
     // MARK: - Table view data source
 

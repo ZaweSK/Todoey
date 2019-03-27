@@ -138,8 +138,16 @@ class CategoryTableViewController: UITableViewController
 
         alert.addAction(action)
 
-        present(alert, animated: true, completion: nil)
-        
+        present(alert, animated: true) {
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissAlertController))
+            
+            alert.view.superview?.subviews[0].addGestureRecognizer(tapGesture)
+        }
+    }
+    
+    @objc func dismissAlertController(_ sender: UIGestureRecognizer) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     //MARK: - Realm CRUD methods
