@@ -65,14 +65,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		D00C247B224A66F80075B329 /* View Controller */ = {
+		D00C247B224A66F80075B329 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				D032D905223644E1002388E9 /* CategoryTableViewController.swift */,
 				D032D907223644F7002388E9 /* ItemsTableViewController.swift */,
 				D00C25A9224BB2DF0075B329 /* ColorPickerViewController.swift */,
 			);
-			path = "View Controller";
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		D00C247C224A67050075B329 /* Model */ = {
@@ -82,13 +82,6 @@
 				D032D90B22364E7E002388E9 /* Category.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		D00C247D224A670D0075B329 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		D032D8E722364499002388E9 = {
@@ -112,9 +105,8 @@
 		D032D8F222364499002388E9 /* todoey */ = {
 			isa = PBXGroup;
 			children = (
-				D00C247D224A670D0075B329 /* View */,
 				D00C247C224A67050075B329 /* Model */,
-				D00C247B224A66F80075B329 /* View Controller */,
+				D00C247B224A66F80075B329 /* Controller */,
 				D032D8F322364499002388E9 /* AppDelegate.swift */,
 				D032D8F722364499002388E9 /* Main.storyboard */,
 				D032D8FA2236449B002388E9 /* Assets.xcassets */,
