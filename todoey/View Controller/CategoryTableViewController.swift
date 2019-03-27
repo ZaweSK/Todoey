@@ -9,6 +9,7 @@
 import UIKit
 import SwiftRandom
 import RealmSwift
+import ChameleonFramework
 
 class CategoryTableViewController: UITableViewController
 {
@@ -23,8 +24,12 @@ class CategoryTableViewController: UITableViewController
       
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.separatorStyle = .none
         loadCategories()
-     
+        
+        
+
     }
 
     // MARK: - Table view data source
@@ -35,8 +40,25 @@ class CategoryTableViewController: UITableViewController
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
-        cell.textLabel?.text = categories?[indexPath.row].name ?? "No categories"
-
+        
+        if let category = categories?[indexPath.row] {
+            
+            var cellColor: UIColor
+            
+            let categoryColor = UIColor.init(hexString: category.categoryColor)
+            cellColor = categoryColor != nil ? categoryColor! : UIColor.white
+        
+            
+            cell.textLabel?.textColor = ContrastColorOf(cellColor, returnFlat: true)
+            cell.textLabel?.text = category.name
+            
+            cell.backgroundColor = UIColor.init(hexString: category.categoryColor)
+            
+        } else {
+            
+            cell.textLabel?.text = "No categories"
+        }
+        
         return cell
     }
     
@@ -47,6 +69,8 @@ class CategoryTableViewController: UITableViewController
     
         }
     }
+    
+    // MARK: - Deletion Warning
  
     func checkForDeletion(at indexPath: IndexPath) {
         
@@ -85,11 +109,15 @@ class CategoryTableViewController: UITableViewController
           
             let name = alert.textFields?.first!.text
             
+            guard name!.count > 0 else {return}
+            
             let newCategory = Category()
+            
             newCategory.name = name!
             
-            self.save(category: newCategory)
+            newCategory.categoryColor = UIColor.randomFlat.hexValue()
             
+            self.save(category: newCategory)
         }
         
         alert.addAction(action)
